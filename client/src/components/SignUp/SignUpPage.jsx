@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
+import styles from './SignUpPage.module.css';
+
 
 const SignUp = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
@@ -13,18 +15,17 @@ const SignUp = () => {
     setMessage('');
 
     // Basic validation (Frontend only)
-    if (!fullName || !email || !password) {
+    if (!fullName || !email) {
       setError('Please fill in all fields.');
       return;
     }
 
     // Success message (without backend integration for now)
-    setMessage('Sign Up successful! You can now log in.');
+    setMessage('Sign Up successful!');
 
     // Reset fields after success
     setFullName('');
     setEmail('');
-    setPassword('');
   };
 
   return (
@@ -56,18 +57,14 @@ const SignUp = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <Link to="/welcome">
+          <button type="submit">Sign Up</button>
+        </Link>
 
-        <button type="submit">Sign Up</button>
+        <p className={styles.signupMessage}>
+        Already have an account? <Link to="/sign-in">Sign In</Link>
+        </p>
+
       </form>
     </div>
   );

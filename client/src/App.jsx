@@ -3,6 +3,10 @@ import Home from './pages/HomePage/HomePage';
 import styles from './styles/App.module.css';
 import SignUp from './components/SignUp/SignUpPage.jsx'; 
 import SignIn from './components/SignIn/SignIn.jsx';
+import WelcomePage from './components/WelcomePage/WelcomePage.jsx';
+import Store from './components/Store/Store';
+import ReportsPage from './components/ReportsPage/ReportsPage.jsx';
+import Articles from './components/Articles/Articles.jsx';
 
 
  function App() {
@@ -19,6 +23,10 @@ import SignIn from './components/SignIn/SignIn.jsx';
              <Route path="/" element={<Home />} />
              <Route path="/sign-in" element={<SignIn />} />
              <Route path="/sign-up" element={<SignUp />} />
+             <Route path= "/welcome" element={<WelcomePage />} />
+             <Route path= "/store" element={<Store />} /> 
+             <Route path= "/reports" element={<ReportsPage />} />  
+             <Route path="/articles" element={<Articles />} /> 
            </Routes>
          </main>
          <footer className={styles.footer}>

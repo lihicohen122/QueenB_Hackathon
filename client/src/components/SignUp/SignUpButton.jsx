@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'; // For navigation between pages
-import styles from './SignUp.module.css'; // Add custom styles
+import { Link } from 'react-router';
+import styles from './SignUp.module.css'; 
 
-const SignUpPrompt = () => {  // Rename the component to represent a sign-up prompt
+const SignUpPrompt = () => { 
   return (
     <div className={styles.container}>
       <h2>You dont have an account?</h2>

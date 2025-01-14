@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import styles from './SignIn.module.css';
+import { Link } from 'react-router';
+
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -68,6 +70,11 @@ const SignIn = () => {
         <button type="submit" className={styles.button}>
           Sign In
         </button>
+
+        <p className={styles.signupMessage}>
+        Dont have an account? <Link to="/sign-up">Sign Up</Link>
+        </p>
+
       </form>
     </div>
   );
