@@ -1,5 +1,7 @@
 import { AccountProvider } from './context/AccountContext';
-import { BrowserRouter, Routes, Route, Link } from 'react-router';
+import { BrowserRouter, Routes, Route  } from 'react-router';
+// import { BrowserRouter, Routes, Route, Link } from 'react-router';
+
 import Home from './pages/HomePage/HomePage';
 import styles from './styles/App.module.css';
 import SignUp from './components/SignUp/SignUpPage.jsx'; 
@@ -17,7 +19,7 @@ import Articles from './components/Articles/Articles.jsx';
         <div className={styles.app}>
         <header className={styles.appHeader}>
             <nav className={styles.appNav}>
-              <Link to="/" className={styles.appLink}>Home</Link>
+              {/* <Link to="/welcome" className={styles.appLink}>Home</Link> */}
             </nav>
           </header>
           <main className={styles.main}>
