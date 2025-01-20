@@ -1,3 +1,4 @@
+
 import express from 'express';
 import {
     getAllAccounts,
@@ -10,10 +11,10 @@ import {
 const router = express.Router();
 
 // Account routes
-router.get('/', getAllAccounts);
-router.get('/:userName', getSingleAccount);
-router.post('/', createAccount);
-router.post('/signin', signIn);
-router.post('/earn', earnCoins);
+router.get('/getAllaccounts', getAllAccounts);
+router.get('/:getSingleAccount', getSingleAccount);
+router.post('/createAccount', createAccount);
+router.post('/signIn', signIn);
+router.post('/earnCoins', earnCoins);
 
 export default router;

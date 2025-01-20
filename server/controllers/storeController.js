@@ -1,5 +1,5 @@
-import storeItems from "../data/storeData";
-import accounts from "../data/accountData";
+import storeItems from "../data/storeData.js";
+import accounts from "../data/accountData.js";
 
 
 const getAllItems = (req, res) => {
@@ -14,9 +14,8 @@ const getSingleItem = (req, res) => {
     if (!item){
         return res.status(404).json({mssg: "item not found"});
     }
-    res.status(200).json({ item });
+    return item;
 }
-
 
 const purchaseItem = (req, res) => {
     const {userName, itemId} = req.body;

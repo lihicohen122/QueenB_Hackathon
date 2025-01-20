@@ -1,6 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-
+// Purpose: To store the data of the items in the store.
 const storeItems = [
     {
         id: 1,

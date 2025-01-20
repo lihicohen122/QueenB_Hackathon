@@ -8,8 +8,8 @@ import {
 const router = express.Router();
 
 // Store routes
-router.get('/', getAllItems);
-router.get('/item/:id', getSingleItem);
-router.post('/purchase', purchaseItem);
+router.get('/getAllItems', getAllItems);
+router.get('/getSingleItem', getSingleItem);
+router.post('/purchaseItem', purchaseItem);
 
 export default router;

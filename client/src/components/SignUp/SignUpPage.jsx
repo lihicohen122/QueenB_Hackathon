@@ -1,41 +1,43 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './SignUpPage.module.css';
+import { useAccount } from '../../context/AccountContext';
 
-
-const SignUp = () => {
+const SignUpPage = () => {
+  const navigate = useNavigate();
+  const { signUp } = useAccount();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setMessage('');
-
-    // Basic validation (Frontend only)
+    
     if (!fullName || !email) {
       setError('Please fill in all fields.');
       return;
     }
 
-    // Success message (without backend integration for now)
-    setMessage('Sign Up successful!');
-
-    // Reset fields after success
-    setFullName('');
-    setEmail('');
+    setIsLoading(true);
+    try {
+      await signUp({ userName: fullName, email });
+      navigate('/welcome');
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'An error occurred during sign up.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+    <div className={styles.container}>
+      <h2 className={styles.title}>Sign Up</h2>
+      {error && <p className={styles.error}>{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.inputGroup}>
           <label htmlFor="fullName">Full Name</label>
           <input
             type="text"
@@ -43,10 +45,12 @@ const SignUp = () => {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
+            className={styles.input}
+            disabled={isLoading}
           />
         </div>
 
-        <div>
+        <div className={styles.inputGroup}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -54,20 +58,21 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={styles.input}
+            disabled={isLoading}
           />
         </div>
 
-        <Link to="/welcome">
-          <button type="submit">Sign Up</button>
-        </Link>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Signing up...' : 'Sign Up'}
+        </button>
 
         <p className={styles.signupMessage}>
-        Already have an account? <Link to="/sign-in">Sign In</Link>
+          Already have an account? <Link to="/sign-in">Sign In</Link>
         </p>
-
       </form>
     </div>
   );
 };
 
-export default SignUp;
+export default SignUpPage;
