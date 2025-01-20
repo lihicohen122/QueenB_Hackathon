@@ -35,6 +35,7 @@ app.use((err, req, res, next) => {
         message: 'Something went wrong!',
         error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
+    console.log(next);
 });
 
 // Handle 404 routes
