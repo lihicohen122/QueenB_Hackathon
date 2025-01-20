@@ -34,6 +34,8 @@ const createAccount = (req, res) => {
     console.log("Updated accounts array:", accounts); // Debug log
 
     res.status(201).json({ account: newAccount });
+
+    console.log("New account created:", newAccount); // Debug log
 };
 
 const getSingleAccount = (req, res) => {
