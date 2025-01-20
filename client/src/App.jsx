@@ -30,7 +30,7 @@ import Articles from './components/Articles/Articles.jsx';
            </Routes>
          </main>
          <footer className={styles.footer}>
-           <p>&copy; 2024 My App</p>
+           <p>&copy; 2025 My App</p>
          </footer>
        </div>
      </BrowserRouter>
