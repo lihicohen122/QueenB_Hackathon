@@ -1,4 +1,4 @@
-const Account = require('./account');
+const Account = require('./Account');
 
 class AccountManager {
     accounts = [];

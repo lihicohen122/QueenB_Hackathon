@@ -1,0 +1,53 @@
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 עמודות */
+    gap: 10px; /* רווח בין האלמנטים */
+}
+
+.image-link {
+    display: block; /* ודאי שהקישור תואם לגודל התמונה */
+    padding: 0; /* ללא ריווחים פנימיים */
+    margin: 0; /* ללא ריווחים חיצוניים */
+    width: 50%;                                 /*fit-content שיניתי ל50% במקום */ 
+    height: fit-content; /* תואם לתוכן */
+    line-height: 0; /* ביטול ריווחים אנכיים */
+    text-decoration: none; /* ביטול קו תחתון */
+    cursor: pointer; /* עיצוב סמן העכבר */
+}
+
+.image {
+    display: block; /* מונע רווחים חיצוניים שנוצרים מהתמונה */
+    width: 100%;                               /* auto שיניתי ל100% במקום  */
+    height: auto; /* שמירה על פרופורציות */
+    border-radius: 8px; /* פינות מעוגלות */
+    margin: 0; /* ביטול רווחים */
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #91076c; /* צבע כחול */
+    text-decoration: none; /* ביטול קו תחתון */
+    border-radius: 5px; /* פינות מעוגלות */
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.image-container {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.image-text {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.back-button:hover {
+    background-color: #5a0443; /* צבע כהה יותר בעת מעבר עם העכבר */
+}
+
