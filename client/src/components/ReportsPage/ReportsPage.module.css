@@ -1,0 +1,70 @@
+/* עיצוב כללי למיכל הדף */
+.reports-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* עיצוב למיכל תיבת הטקסט */
+.input-container {
+    margin-bottom: 15px;
+}
+
+/* עיצוב לתיבת המייל */
+.email-input {
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* עיצוב לתיבת הטקסט */
+.text-input {
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.file-input {
+    padding: 5px;
+    font-size: 14px;
+}
+
+/* עיצוב לכפתור */
+.submit-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #45a049; /* צבע כאשר הכפתור נלחץ */
+}
+/* מחלקת העיצוב של כפתור החזרה */
+.back-container {
+    margin-top: 20px;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #91076c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #5a0443; /* צבע רקע כאשר מרחפים על הכפתור */
+}
+
