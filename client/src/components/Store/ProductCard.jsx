@@ -22,7 +22,7 @@
 
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useStore } from '../context/StoreContext';
+import { useStore } from '../../context/StoreContext';
 
 const ProductCard = ({ product }) => {
   const { purchaseItem, loading } = useStore();

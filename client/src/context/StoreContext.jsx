@@ -1,10 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
-// import storeItems from '../data/storeData';
-import storeItems from 'server/data/storeData.js';
-
 import PropTypes from 'prop-types';
-
+import api from '../services/api';
 
 // Create the store context
 const StoreContext = createContext();
@@ -20,7 +16,7 @@ export const useStore = () => {
 
 export const StoreProvider = ({ children }) => {
     // State management
-    const [items, setItems] = useState(storeItems);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -28,7 +24,7 @@ export const StoreProvider = ({ children }) => {
     const fetchItems = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/api/store/getAllItems');
+            const response = await api.get('/store/getAllItems');  // Using the api instance
             setItems(response.data.items);
             setError(null);
         } catch (err) {
@@ -43,15 +39,15 @@ export const StoreProvider = ({ children }) => {
     const purchaseItem = async (userName, itemId) => {
         try {
             setLoading(true);
-            const response = await axios.post('/api/store/purchaseItem', {
+            const response = await api.post('/store/purchaseItem', {  // Using the api instance
                 userName,
                 itemId
             });
 
             // Update local state to reflect the purchase
             if (response.data.mssg === 'Purchase successful') {
-                // You might want to trigger a refresh of the user's account data here
-                // or handle it through a separate user context
+                // Refresh the items list after successful purchase
+                await fetchItems();
                 return {
                     success: true,
                     data: response.data
@@ -73,7 +69,7 @@ export const StoreProvider = ({ children }) => {
     const getItem = async (itemId) => {
         try {
             setLoading(true);
-            const response = await axios.get(`/api/store/getSingleItem/${itemId}`);
+            const response = await api.get(`/store/getSingleItem/${itemId}`);  // Using the api instance
             return response.data;
         } catch (err) {
             setError('Failed to fetch item');
@@ -110,3 +106,5 @@ export const StoreProvider = ({ children }) => {
 StoreProvider.propTypes = {
     children: PropTypes.node.isRequired
 };
+
+export default StoreProvider;
