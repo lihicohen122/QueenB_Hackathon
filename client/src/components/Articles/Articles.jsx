@@ -1,4 +1,4 @@
-//import { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './Articles.module.css';
@@ -12,20 +12,24 @@ const image6 = {src: '/images/6.jpg', link: 'https://www.unicef.org/parenting/ch
 
 const Articles = () => {
     const images = [image1, image2, image3, image4, image5, image6];
-    //const [clickedLinks, setClickedLinks] = useState(new Set()); // סט לשמירת הקישורים שכבר נלחצו
+    const [clickedLinks, setClickedLinks] = useState(new Set()); // סט לשמירת הקישורים שכבר נלחצו
 
     const handle_link_click = (event, link) => {
         console.log(`Navigating to: ${link}`);
-        //if (clickedLinks.has(link)) {
+        if (clickedLinks.has(link)) {
             // אם הקישור כבר נלחץ, לא נוסיף נקודות
-        //    console.log(`Points were already added for: ${link}`);
-        //    return;
-        //}
+            console.log(`Points were already added for: ${link}`);
+            return;
+        }
         // addin points
             axios.post('http://localhost:3000/api/account/add-points', { points: 10 })
-                .then(response => console.log(response.data))
+                .then(response => {
+                    console.log(response.data);
+                    setClickedLinks(prevLinks => new Set(prevLinks).add(link));
+                    console.log(`Link added to clickedLinks: ${link}`);
+                })
                 .catch(error => console.error('Error:', error));
-    
+
     };
 
     return (
