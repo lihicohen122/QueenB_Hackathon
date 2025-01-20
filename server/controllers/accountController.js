@@ -28,8 +28,16 @@ const createAccount = (req, res) => {
     res.status(201).json({ account: newAccount });
 };
 
-const findAccountByUserName = (userName) => {
-    return accounts.find(acc => acc.userName === userName);
+const getSingleAccount = (req, res) => {
+    const { userName } = req.params;
+    
+    const account = accounts.find(acc => acc.userName === userName);
+    
+    if (!account) {
+        return res.status(404).json({ mssg: "Account not found" });
+    }
+    
+    res.status(200).json({ account });
 };
 
 // Sign in to an account
@@ -73,7 +81,6 @@ const earnCoins = (req, res) => {
 export {
     getAllAccounts,
     getSingleAccount,
-    findAccountByUserName,
     createAccount,
     signIn,
     earnCoins

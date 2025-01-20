@@ -14,7 +14,7 @@ const getSingleItem = (req, res) => {
     if (!item){
         return res.status(404).json({mssg: "item not found"});
     }
-    return item;
+    res.status(200).json({ item });
 }
 
 
