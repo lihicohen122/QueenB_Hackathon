@@ -35,12 +35,15 @@ export const StoreProvider = ({ children }) => {
         }
     };
 
+    
+
     // Purchase an item
     const purchaseItem = async (userName, itemId) => {
+        const name = 'inbal';
         try {
             setLoading(true);
             const response = await api.post('/store/purchaseItem', {  // Using the api instance
-                userName,
+                name,
                 itemId
             });
 
