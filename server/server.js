@@ -3,68 +3,47 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import rubberDuckRoutes from './routes/rubberDucks.js'; // Import the routes
-import {Account} from './classes/Account.js'; // Import Account class
+import storeRoutes from './routes/store.js';
+import accountRoutes from './routes/accounts.js';
 
+// Set up __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Load environment variables
 dotenv.config();
 
 const app = express();
 
+// Middleware
 app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Serve static images
 
+// CORS configuration
 app.use(cors({
-  origin: process.env.CLIENT_URL
+    origin: process.env.CLIENT_URL
 }));
-console.log('CLIENT_URL:', process.env.CLIENT_URL);
 
-// Use the routes file for all `/ducks` routes
-app.use('/ducks', rubberDuckRoutes);
+// Routes
+app.use('/store', storeRoutes);
+app.use('/accounts', accountRoutes);
 
-//Account class start
-const account = new Account('John Doe', 'john@example.com', 'password123');
-
-app.post('/api/account/add-points', (req, res) => {
-  console.log('add-points route called'); // הדפסה לצורך בדיקה
-  const { points } = req.body;
-  try {
-    account.add_points(points);
-    res.json({ message: 'Points added successfully', points: account.get_points() });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ 
+        message: 'Something went wrong!',
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
 });
 
-
-
-app.post('/api/account/delete-points', (req, res) => {  // Delete points from the account
-  const { points } = req.body;
-  try {
-      account.delete_points(points);
-      res.json({ message: 'Points deleted successfully', points: account.get_points() });
-  } catch (error) {
-      res.status(400).json({ error: error.message });
-  }
+// Handle 404 routes
+app.use((req, res) => {
+    res.status(404).json({ message: 'Route not found' });
 });
-
-app.get('/api/account/get-points', (req, res) => {  // Get current points of the account
-  res.json({ points: account.get_points() });
-});
-//Account class end
 
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-console.log('PORT from .env:', process.env.PORT);
-app._router.stack.forEach(function(r){
-  if (r.route && r.route.path){
-      console.log(r.route.path);
-  }
-});
-

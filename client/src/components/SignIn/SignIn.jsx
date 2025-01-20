@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import styles from './SignIn.module.css';
 import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
+import { useAccount } from '../../context/AccountContext.jsx';
 
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const { signIn } = useAccount();
+  
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -17,13 +22,20 @@ const SignIn = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
     if (!formData.username || !formData.email) {
       setError('Both fields are required.');
       return;
+    }
+
+    try {
+      await signIn(formData.username, formData.email);
+      navigate('/welcome'); // Redirect to articles page after successful sign in
+    } catch (err) {
+      setError(err.mssg || 'Sign in failed. Please try again.');
     }
 
     // Clear any previous error or success
