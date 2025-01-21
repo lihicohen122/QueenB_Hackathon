@@ -9,7 +9,7 @@ export const AccountProvider = ({ children }) => {
 
   const signIn = async (username, email) => {
     try {
-      const response = await api.post('/accounts/signIn', { userName: username, email });
+      const response = await api.post('/accounts/signIn', {username, email});
       setAccount(response.data.account);
       return response.data;
     } catch (error) {
@@ -19,7 +19,7 @@ export const AccountProvider = ({ children }) => {
 
   const signUp = async (username, email) => {
     try {
-      const response = await api.post('/accounts/createAccount', { userName: username, email });
+      const response = await api.post('/accounts/createAccount', {username, email });
       setAccount(response.data.account);
       return response.data;
     } catch (error) {

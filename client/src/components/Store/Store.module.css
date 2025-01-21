@@ -1,9 +1,10 @@
 .product-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px;
-  }
+  display: flex; /* שימוש ב-Flexbox להצגת כרטיסים בשורה */
+  flex-wrap: nowrap; /* מניעת מעבר לשורה חדשה */
+  gap: 20px; /* רווח בין כרטיסים */
+  justify-content: center; /* יישור למרכז */
+  overflow-x: auto; /* גלילה אופקית אם הכרטיסים חורגים מגודל המכולה */
+}
   
   .product-card {
     background-color: white;
@@ -32,4 +33,11 @@
   button:hover {
     background-color: #555;
   }
+
+  .product-image {
+    margin-bottom: 12px;
+    border-radius: 4px;
+  }
+
+  
   

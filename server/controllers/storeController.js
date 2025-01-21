@@ -42,6 +42,8 @@ const purchaseItem = (req, res) => {
         purchasedItem: item
     });
 
+    console.log("Account after purchase: ", account.coins);
+
 };
 
 export{

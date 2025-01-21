@@ -1,67 +1,113 @@
-// import { createContext, useState, useContext } from 'react';
-// import api from '../services/api';
-// import PropTypes from 'prop-types';
+import { createContext, useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import api from '../services/api';
 
-// const StoreContext = createContext();
+// Create the store context
+const StoreContext = createContext();
 
-// export const StoreProvider = ({ children }) => {
-//   const [items, setItems] = useState(null);
-//   const [account, setAccount] = useState(null);
-//   const [items, setItems] = useState(null);
-//   const [items, setItems] = useState(null);
+// Custom hook for using the store context
+export const useStore = () => {
+    const context = useContext(StoreContext);
+    if (!context) {
+        throw new Error('useStore must be used within a StoreProvider');
+    }
+    return context;
+};
 
-//   const signIn = async (username, email) => {
-//     try {
-//       const response = await api.post('/accounts/signIn', { userName: username, email });
-//       setAccount(response.data.account);
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error finding an account: ', error);
-//     }
-//   };
+export const StoreProvider = ({ children }) => {
+    // State management
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-//   const signUp = async (username, email) => {
-//     try {
-//       const response = await api.post('/accounts/createAccount', { userName: username, email });
-//       setAccount(response.data.account);
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error creating an account: ', error);
-//     }
-//   };
+    // Fetch all items from the server
+    const fetchItems = async () => {
+        try {
+            setLoading(true);
+            const response = await api.get('/store/getAllItems');  // Using the api instance
+            setItems(response.data.items);
+            setError(null);
+        } catch (err) {
+            setError('Failed to fetch store items');
+            console.error('Error fetching items:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-//   const earnCoins = async (amount) => {
-//     if (!account) return;
-//     try {
-//       const response = await api.post('/accounts/earnCoins', {
-//         userName: account.userName,
-//         amount
-//       });
-      
-//       setAccount(response.data.account);
-//       return response.data;
-//     } catch (error) {
-//       throw error.response.data;
-//     }
-//   };
+    
 
-//   return (
-//     <AccountContext.Provider value={{ account, signIn, signUp, earnCoins }}>
-//       {children}
-//     </AccountContext.Provider>
-//   );
-// };
+    // Purchase an item
+    const purchaseItem = async (userName, itemId) => {
+        const name = 'inbal';
+        try {
+            setLoading(true);
+            const response = await api.post('/store/purchaseItem', {  // Using the api instance
+                name,
+                itemId
+            });
 
-// AccountProvider.propTypes = {
-//   children: PropTypes.node.isRequired,
-// };
+            // Update local state to reflect the purchase
+            if (response.data.mssg === 'Purchase successful') {
+                // Refresh the items list after successful purchase
+                await fetchItems();
+                return {
+                    success: true,
+                    data: response.data
+                };
+            }
+        } catch (err) {
+            const errorMessage = err.response?.data?.mssg || 'Failed to purchase item';
+            setError(errorMessage);
+            return {
+                success: false,
+                error: errorMessage
+            };
+        } finally {
+            setLoading(false);
+        }
+    };
 
-// export const useAccount = () => {
-//   const context = useContext(AccountContext);
-//   if (!context) {
-//     throw new Error('useAccount must be used within an AccountProvider');
-//   }
-//   return context;
-// };
+    // Get a single item by ID
+    const getItem = async (itemId) => {
+        try {
+            setLoading(true);
+            const response = await api.get(`/store/getSingleItem/${itemId}`);  // Using the api instance
+            return response.data;
+        } catch (err) {
+            setError('Failed to fetch item');
+            console.error('Error fetching item:', err);
+            return null;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-// export default AccountContext;
+    // Load items when the component mounts
+    useEffect(() => {
+        fetchItems();
+    }, []);
+
+    // Context value object
+    const value = {
+        items,
+        loading,
+        error,
+        purchaseItem,
+        getItem,
+        refreshItems: fetchItems
+    };
+
+    return (
+        <StoreContext.Provider value={value}>
+            {children}
+        </StoreContext.Provider>
+    );
+};
+
+// PropTypes for the provider
+StoreProvider.propTypes = {
+    children: PropTypes.node.isRequired
+};
+
+export default StoreProvider;
